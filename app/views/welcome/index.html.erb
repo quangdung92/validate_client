@@ -1,0 +1,94 @@
+<script>
+	function contains(elem, array) {
+		for (var i = 0; i < array.length; i++) {
+			if (array[i] === elem) {
+				return true;
+			}
+		}
+		return false;
+	}
+	$(document).ready(function() {
+		$("#button").click(function() {
+			var email = $("#email").val();
+			var name = $("#username").val();
+			var phonenumber = $("#phonenumber").val();
+			var pass = $("#password").val();
+			var names = $(".divname").map(function() {
+				return $.trim($(this).text());
+			}).get();
+			var phones = $(".divphone").map(function() {
+				return $.trim($(this).text());
+			}).get();
+			var mails = $(".divmail").map(function() {
+				return $.trim($(this).text());
+			}).get();
+
+			console.log(phones);
+			console.log(contains(email, mails));
+			console.log(contains(phonenumber, phones));
+
+			if (name == "") {
+				alert("Please enter your Name in the form");
+				return false;
+			} else if (pass == "") {
+				alert("Please enter your Password in the form");
+				return false;
+			} else if (phonenumber == "" && email == "") {
+				alert("Please enter your email or phonenumber in the form");
+				return false;
+			} else if (contains(name, names) == true) {
+				alert("Name is available");
+				return false;
+			} else if (contains(email, mails) == true && phonenumber == "") {
+				alert("Email has been taken! Please choose phonenumber");
+				return false;
+			} else if (contains(phonenumber, phones) == true && email == "") {
+				alert("Phonenumber has been taken! Please choose email");
+				return false;
+			} else if (contains(email, mails) == true && contains(phonenumber, phones) == true) {
+				alert("Plese choose another email or phone number");
+				return false;
+			} 
+		});
+	}); 
+</script>
+<div class="medium-4 medium-centered row" align="center">
+	<div class="medium-10 medium-centered columns">
+		<h3>Sign up</h3>
+		<%= form_tag(create_path) do %>
+		Username
+		<br />
+		<%= text_field_tag(:username)%>
+		<br />
+		Password
+		<br />
+		<%= text_field_tag(:password)%>
+		<br />
+		Email
+		<br />
+		<%= text_field_tag(:email)%>
+		<br />
+		Phonenumber
+		<br />
+		<%= text_field_tag(:phonenumber)%>
+		<br />
+		<%= submit_tag("Sign",
+		class: "button [tiny small large]", :id => "button")%>
+		<%end%>
+	</div>
+</div>
+<% @usernames.each do |t| %>
+<div class="divname" style="display: none">
+	<%= t.username %>
+</div>
+<%end%>
+<% @phones.each do |t| %>
+<div class="divphone" style="display: none">
+	<%= t.phonenumber %>
+</div>
+<%end%>
+<% @emails.each do |t| %>
+<div class="divmail" style="display: none">
+	<%= t.email %>
+</div>
+<%end%>
