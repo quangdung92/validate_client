@@ -12,9 +12,9 @@ class WelcomeController < ApplicationController
                         logger.debug "pass: #{@user.password}"
                         logger.debug "phone: #{@user.phonenumber}"
     if @user
-      redirect_to welcome_index_path
+      sleep(4.0)
+      redirect_to root_path
     else
-      render 'index'
     end
   end
 end

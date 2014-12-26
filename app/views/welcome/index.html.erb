@@ -7,71 +7,142 @@
 		}
 		return false;
 	}
+ 	function IsEmail(email) {
+        var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if(!regex.test(email)) {
+           return false;
+        }else{
+           return true;
+        }
+      }
 	$(document).ready(function() {
+		var names = $(".divname").map(function() {
+			return $.trim($(this).text());
+		}).get();
+		var phones = $(".divphone").map(function() {
+			return $.trim($(this).text());
+		}).get();
+		var mails = $(".divmail").map(function() {
+			return $.trim($(this).text());
+		}).get();
+		$("#username").focusout(function() {
+			var name = $("#username").val();
+			if (name == "") {
+				$("#validuser").removeClass("alert-box info radius");
+				$("#validuser").html("Please insert your name").addClass("alert-box alert").fadeIn("slow");
+			} else if (name.length < 6) {
+				$("#validuser").removeClass("alert-box info radius");
+				$("#validuser").html("Min name is 6").addClass("alert-box alert").fadeIn("slow");
+			} else if (contains(name, names) == true) {
+				$("#validuser").removeClass("alert-box info radius");
+				$("#validuser").html("Name has been taken, choose another Name").addClass("alert-box alert").fadeIn("slow");
+			} else {
+				$("#validuser").removeClass("alert-box alert round");
+				$("#validuser").html("Your Name Correctly").addClass("alert-box info radius").css("display", "block");
+			}
+		});
+		$("#password").focusout(function() {
+			var pass = $("#password").val();
+			if (pass == "") {
+				$("#validpass").removeClass("alert-box info radius");
+				$("#validpass").html("Please insert your password").addClass("alert-box alert").fadeIn("slow");
+			} else {
+				$("#validpass").removeClass("alert-box alert round");
+				$("#validpass").html("You enter the password").addClass("alert-box info radius").css("display", "block");
+			}
+		});
+		$("#email").focusout(function() {
+			var email = $("#email").val();
+			var phonenumber = $("#phonenumber").val();
+			if (contains(email, mails) == true && phonenumber == "") {
+				$("#validmail").removeClass("alert-box info radius");
+				$("#validmail").html("Make sure you enter phonenumber").addClass("alert-box alert").fadeIn("slow");
+			} else if (IsEmail(email)==false && email != "") {
+				$("#validmail").html("Mail error").addClass("alert-box alert").fadeIn("slow");
+			} else {
+				$("#validmail").removeClass("alert-box alert").html("");
+				$("#validphone").removeClass("alert-box alert");
+				$("#validphone").css("display", "none");
+			}
+		});
+		$("#phonenumber").focusout(function() {
+			var email = $("#email").val();
+			var phonenumber = $("#phonenumber").val();
+			if (contains(phonenumber, phones) == true && email == "") {
+				$("#validphone").removeClass("alert-box info radius");
+				$("#validphone").html("Make sure you enter email").addClass("alert-box alert").fadeIn("slow");
+			} else {
+				if (phonenumber != "") {
+				$("#validmail").removeClass("alert-box alert");
+				$("#validmail").css("display", "none");
+				$("#validphone").removeClass("alert-box alert");
+				$("#validphone").html("Your phone correctly").addClass("alert-box info radius").css("display", "none");
+				}
+			}
+		});
 		$("#button").click(function() {
 			var email = $("#email").val();
 			var name = $("#username").val();
 			var phonenumber = $("#phonenumber").val();
 			var pass = $("#password").val();
-			var names = $(".divname").map(function() {
-				return $.trim($(this).text());
-			}).get();
-			var phones = $(".divphone").map(function() {
-				return $.trim($(this).text());
-			}).get();
-			var mails = $(".divmail").map(function() {
-				return $.trim($(this).text());
-			}).get();
-
-			console.log(phones);
-			console.log(contains(email, mails));
-			console.log(contains(phonenumber, phones));
-
 			if (name == "") {
-				alert("Please enter your Name in the form");
 				return false;
 			} else if (pass == "") {
-				alert("Please enter your Password in the form");
-				return false;
-			} else if (phonenumber == "" && email == "") {
-				alert("Please enter your email or phonenumber in the form");
 				return false;
 			} else if (contains(name, names) == true) {
-				alert("Name is available");
 				return false;
 			} else if (contains(email, mails) == true && phonenumber == "") {
-				alert("Email has been taken! Please choose phonenumber");
+				return false;
+			} else if (IsEmail(email)==false && email != "") {
+				return false;
+			} else if (name.length < 6) {
 				return false;
 			} else if (contains(phonenumber, phones) == true && email == "") {
-				alert("Phonenumber has been taken! Please choose email");
 				return false;
-			} else if (contains(email, mails) == true && contains(phonenumber, phones) == true) {
-				alert("Plese choose another email or phone number");
+			} else if (phonenumber == "" && email == "") {
+				$("#valid").html("Please enter email or phone number!").css("font-size", "0.8em");
+				$("#valid").css("color", "red").fadeIn("slow");
 				return false;
-			} 
+			} else if (contains(email, mails) == true  && contains(phonenumber, phones) == true) {
+				$("#valid").html("Email and Phone have been taken!Please choose another email or phonenumber!").css("font-size", "0.8em");
+				$("#valid").css("color", "red");
+				return false;
+			} else {
+				$("#valid").html("Congratulations! your account has been create").css("font-size", "0.8em");
+				$("#valid").css("color", "green");
+				$("#hideMsg").css("display", "block");
+				var sec = $("#hideMsg span").text();
+				timer = setInterval(function() {
+					$('#hideMsg span').text(--sec);
+					if (sec == 0) {
+						$('#hideMsg').fadeOut('fast');
+						clearInterval(timer);
+					}
+				}, 1000);
+			}
 		});
 	}); 
 </script>
+<div class="medium-8 medium-centered row" align="center" style="margin-top: 50px">
+	<div class="medium-10 medium-centered columns" style="padding: 0px">
+		<h2 style="display: inline-block"><i class="step fi-social-twitter size-60" id="valid" style="color: #82C0FF">&nbspSign up</i></h2>
+		<div id="hideMsg" style="display: none">Redirect in
+			<span>5</span> seconds
+		</div>
+	</div>
+</div>
 <div class="medium-4 medium-centered row" align="center">
 	<div class="medium-10 medium-centered columns">
-		<h3>Sign up</h3>
 		<%= form_tag(create_path) do %>
 		Username
 		<br />
-		<%= text_field_tag(:username)%>
-		<br />
+		<%= text_field_tag(:username)%><label id="validuser" style="display: none"></label>
 		Password
-		<br />
-		<%= text_field_tag(:password)%>
-		<br />
+		<%= password_field_tag(:password)%><label id="validpass" style="display: none"></label>
 		Email
-		<br />
-		<%= text_field_tag(:email)%>
-		<br />
+		<%= text_field_tag(:email)%><label id="validmail" style="display: none,inline"></label>
 		Phonenumber
-		<br />
-		<%= text_field_tag(:phonenumber)%>
-		<br />
+		<%= text_field_tag(:phonenumber)%><label id="validphone" style="display: none,inline"></label>
 		<%= submit_tag("Sign",
 		class: "button [tiny small large]", :id => "button")%>
 		<%end%>
