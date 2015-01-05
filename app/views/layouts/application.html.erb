@@ -8,12 +8,11 @@
     <%= stylesheet_link_tag    "foundation-icons" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
-  <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.4.4.min.js"></script>
-  <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
+
   </head>
-
   <body>
-
+	<%= javascript_include_tag "jquery.validate" %>
+	<%= javascript_include_tag "jquery.validate.min" %>
     <%= yield %>
   </body>
 </html>
