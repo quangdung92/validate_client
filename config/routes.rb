@@ -1,11 +1,14 @@
 Validate::Application.routes.draw do
   get "welcome/index"
-  
+  get "welcome/check"
+   
   root :to => "welcome#index"
   
   resources :users
   
   match '/create', to: 'welcome#create', via: 'post'
+  match "/welcome/check" , to: 'welcome#check', via: 'post'
+  match "/welcome/checkavailable" , to: 'welcome#checkavailable', via: 'post'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

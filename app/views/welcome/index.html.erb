@@ -1,82 +1,33 @@
-<style>
-	.errorclass {
-		font-family: "Comic Sans MS", cursive, sans-serif;
-		margin-bottom: 13px;
-		margin-top: 5px;
-		font-size: 1em;
-		font-weight: bold;
-		opacity: 0.4;
-	}
-	.inputBox {
-		border-radius: 5px 5px;
-		height: 10px;
-	}
-	body {
-		background-image: url('/assets/bg.jpg');
-		background-repeat: no-repeat;
-		background-color: #C0DEED;
-	};
-</style>
 <script>
-	function contains(elem, array) {
-		for (var i = 0; i < array.length; i++) {
-			if (array[i] === elem) {
-				return false;
+	jQuery.validator.addMethod("validate", function(value, element) {
+		var email = $("#email").val();
+		var phonenumber = $("#phonenumber").val();
+		var result = true;
+		$.ajax({
+			url : "welcome/checkavailable",
+			type : "post",
+			async : false,
+			data : {
+				email : email,
+				phonenumber : phonenumber
+			},
+			success : function(status) {
+				if (status === false) {
+					result = false;
+				} else {
+					result = true;
+				}
 			}
-		}
-		return true;
-	}
-
-
-	jQuery.validator.addMethod("CheckUser", function() {
-		var names = $(".divname").map(function() {
-			return $.trim($(this).text());
-		}).get();
-		var name = $("#username").val();
-		return contains(name, names);
+		});
+		return result;
 	});
-	jQuery.validator.addMethod("Checkmail", function() {
-		var mails = $(".divmail").map(function() {
-			return $.trim($(this).text());
-		}).get();
-		var email = $("#email").val();
-		return contains(email, mails);
-	});
-	jQuery.validator.addMethod("Checkphone", function() {
-		var phones = $(".divphone").map(function() {
-			return $.trim($(this).text());
-		}).get();
-		var phonenumber = $("#phonenumber").val();
-		return contains(phonenumber, phones);
-	});
-	jQuery.validator.addMethod("Checkavailable", function() {
-		var mails = $(".divmail").map(function() {
-			return $.trim($(this).text());
-		}).get();
-		var email = $("#email").val();
-		var phones = $(".divphone").map(function() {
-			return $.trim($(this).text());
-		}).get();
-		var phonenumber = $("#phonenumber").val();
-		if (contains(phonenumber, phones) == false && contains(email, mails) == false) {
-			return false;
-		} else {
-			return true;
-		}
-	});
-
 	$(document).ready(function() {
 		$("#check").validate({
 			success : function(label, element) {
-				label.removeClass("errorclass")
-				label.text('OK!').css({
-				"color" : "blue",
-				"margin-bottom" : "13px",
-				"margin-top" : "5px",
-				"font-family" : "Comic Sans MS, cursive, sans-serif",
-				"font-weight" : "bold",
-				"opacity" : "0.4",
-				});
+				label.text('OK!')
+				label.addClass("validclass").css({
+					"color" : "blue"
+				})
 				$(element).css({
 					"border-color" : "",
 					"background-color" : ""
@@ -101,7 +52,15 @@
 				"username" : {
 					required : true,
 					minlength : 3,
-					CheckUser : true
+					remote : {
+						url : "welcome/check",
+						type : "post",
+						data : {
+							username : function() {
+								return $("#username").val();
+							}
+						}
+					}
 				},
 				"email" : {
 					required : {
@@ -110,12 +69,7 @@
 						}
 					},
 					email : true,
-					Checkmail : {
-						depends : function(element) {
-							return ($('#phonenumber').val() == '');
-						}
-					},
-					Checkavailable : true
+					validate : true
 				},
 				"password" : {
 					required : true,
@@ -129,25 +83,19 @@
 					},
 					minlength : 3,
 					number : true,
-					Checkphone : {
-						depends : function(element) {
-							return ($('#email').val() == '');
-						}
-					},
-					Checkavailable : true
-				}
+					validate : true
+				},
 			},
 			messages : {
 				"username" : {
 					required : "Required",
 					minlength : "Min Length is 3 characters",
-					CheckUser : "Name already taken"
+					remote : "Name already taken!"
 				},
 				"email" : {
 					required : "email or phone number not null!",
 					email : "A valid email address is required",
-					Checkmail : "Make sure you have phone number",
-					Checkavailable : "Email or phonenumber has been taken!"
+					validate : "Email already taken!"
 				},
 				"password" : {
 					required : "Required",
@@ -157,8 +105,7 @@
 					required : "email or phone number not null!",
 					minlength : "Min Length is 3 characters",
 					number : "phone must be number!",
-					Checkphone : "Make sure you have email",
-					Checkavailable : "Email or phonenumber has been taken!"
+					validate : "Phone already taken!"
 				}
 			},
 			errorPlacement : function(label, element) {
@@ -168,7 +115,10 @@
 					"opacity" : "0.6"
 				});
 				element.after(label);
-				label.addClass("errorclass");
+				label.addClass("validclass");
+				label.css({
+					"color" : "red"
+				})
 			},
 		});
 	});
@@ -197,18 +147,3 @@
 		<%end%>
 	</div>
 </div>
-<% @usernames.each do |t| %>
-<div class="divname" style="display: none">
-	<%= t.username %>
-</div>
-<%end%>
-<% @phones.each do |t| %>
-<div class="divphone" style="display: none">
-	<%= t.phonenumber %>
-</div>
-<%end%>
-<% @emails.each do |t| %>
-<div class="divmail" style="display: none">
-	<%= t.email %>
-</div>
-<%end%>

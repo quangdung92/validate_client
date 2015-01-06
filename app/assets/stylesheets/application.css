@@ -13,3 +13,15 @@
 
  *= require_tree .
  */
+.inputBox {
+	border-radius: 5px 5px;
+	height: 10px;
+}
+.validclass {
+	margin-bottom: 13px;
+	margin-top: 5px;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-weight: bold;
+	opacity: 0.4;
+	font-size: 1em;
+}
