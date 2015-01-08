@@ -29,7 +29,6 @@ jQuery.validator.addMethod("require_at_least", function(value, element, options)
 	var filled_fields = fields.filter(function() {
 		return $(this).val() != "";
 	});
-	console.log(filled_fields)
 	var empty_fields = fields.not(filled_fields);
 	if (filled_fields.length < least && empty_fields[0] == element || empty_fields[1] == element) {
 		return false;
