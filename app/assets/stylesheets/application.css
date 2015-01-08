@@ -25,3 +25,17 @@
 	opacity: 0.4;
 	font-size: 1em;
 }
+div[class="medium-4 medium-centered row"] {
+	margin-top: 50px;
+	background-color: white;
+	padding: 0px;
+	border-radius: 8px 8px
+}
+i[class="step fi-social-twitter size-60"] {
+	color: #b5daff
+}
+body[class="background"] {
+	background-image: url('/assets/bg.jpg');
+	background-repeat: no-repeat;
+	background-color: #C0DEED;
+}
