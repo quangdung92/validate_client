@@ -1,0 +1,48 @@
+
+<div class="medium-4 medium-centered row" align="center">
+	<div class="medium-8 medium-centered columns" id="friends">
+		<%= current_user.provider %>
+		<br />
+		<%= current_user.uid %>
+		<br />
+		<%= link_to "Sign out", logout_path %>
+	</div>
+	<div class="medium-10 medium-centered columns">
+		<%= form_tag(micropost_path) do %>
+		<fieldset id="friends" align="left">
+			<legend>
+				Post
+			</legend>
+			<%= text_area_tag :micropost%>
+			<% if @feeds%>
+			<% @feeds.each do |u|%>
+			<fieldset style="padding: 5px" >
+				<legend>
+					<% if u['created_time'] != nil%>
+					<%= u['created_time'].to_date.strftime("%y/%m/%d")%>
+					<%end%>
+					(<%= link_to "delete", {:controller => "welcome", :action => "delete_post", :ids => u['id']} %>)
+				</legend>
+				<p style="word-break: break-all">
+					<%= u['message']%>
+					</p>
+			</fieldset>
+			<%end%>
+			<%end%>
+		</fieldset>
+		<%= submit_tag("Post",class: "button [tiny small large]") %>
+		<%end%>
+	</div>
+</div>
+<div class="medium-4 medium-centered row" align="left" >
+	<div class="medium-12 medium-centered columns" id="friends">
+		<h4><i class="step fi-results-demographics size-50">&nbspFriends List</i></h4>
+		<% if @friends%>
+		<% @friends.each do |u|%>
+		<img src="<%= u['picture']['data']['url']%>" width="30px" height="30px" />
+		<%= u['name']%>
+		<br />
+		<%end%>
+		<%end%>
+	</div>
+</div>

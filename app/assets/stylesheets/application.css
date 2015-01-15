@@ -39,3 +39,32 @@ body[class="background"] {
 	background-repeat: no-repeat;
 	background-color: #C0DEED;
 }
+#friends {
+	color : brown;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-weight: bold;
+	opacity: 0.7;
+	font-size: 1em;
+}
+input[class="button [tiny small large]"] {
+	width: 100px;
+	height: 40px;
+	opacity: 0.8;
+	background-color: #00ffff;
+	border-radius: 5px 5px;
+	font-weight: bold;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+}
+div[class="medium-12 medium-centered columns"] {
+	-webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+	padding: 5px
+}
+fieldset[id="friends"] {
+	border-radius: 8px 8px;
+}
+i[class="step fi-results-demographics size-50"] {
+	color: #0ddfff;
+}
+

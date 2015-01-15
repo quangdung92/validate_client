@@ -21,6 +21,10 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'omniauth-facebook'
+gem 'devise'
+gem 'koala'
+gem 'omniauth'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

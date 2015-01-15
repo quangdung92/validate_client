@@ -421,23 +421,23 @@ $alert-font-color-alt: scale-color($secondary-color, $lightness: -66%);
 // $include-html-button-classes: $include-html-classes;
 
 // We use these to build padding for buttons.
-// $button-tny: rem-calc(10);
-// $button-sml: rem-calc(14);
-// $button-med: rem-calc(16);
-// $button-lrg: rem-calc(18);
+$button-tny: rem-calc(12);
+$button-sml: rem-calc(10);
+$button-med: rem-calc(16);
+$button-lrg: rem-calc(30);
 
 // We use this to control the display property.
 // $button-display: inline-block;
-// $button-margin-bottom: rem-calc(20);
+$button-margin-bottom: rem-calc(20);
 
 // We use these to control button text styles.
 // $button-font-family: $body-font-family;
 // $button-font-color: $white;
 // $button-font-color-alt: $oil;
-// $button-font-tny: rem-calc(11);
-// $button-font-sml: rem-calc(13);
-// $button-font-med: rem-calc(16);
-// $button-font-lrg: rem-calc(20);
+$button-font-tny: rem-calc(16);
+$button-font-sml: rem-calc(18);
+$button-font-med: rem-calc(19);
+$button-font-lrg: rem-calc(25);
 // $button-font-weight: $font-weight-normal;
 // $button-font-align: center;
 
@@ -462,7 +462,7 @@ $alert-font-color-alt: scale-color($secondary-color, $lightness: -66%);
 // $button-round: $global-rounded;
 
 // We use this to set default opacity and cursor for disabled buttons.
-// $button-disabled-opacity: 0.7;
+$button-disabled-opacity: 0.7;
 // $button-disabled-cursor: $cursor-default-value;
 
 // 06. Button Groups
